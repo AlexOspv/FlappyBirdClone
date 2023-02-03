@@ -10,24 +10,34 @@ public class FlappyBird extends ApplicationAdapter {
 	SpriteBatch batch;
 
 	Texture background;
-	Texture birdWingsUp;
 
-	
+	Texture [] bird;
+	int birdStateFlag = 0;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		background = new Texture("background.png");
-		birdWingsUp = new Texture("bird_wings_up.png");
+		bird = new Texture[2];
+		bird[0] = new Texture("bird_wings_up.png");
+		bird[1] = new Texture("bird_wings_down.png");
 	}
 
 	@Override
 	public void render () {
+
+		if (birdStateFlag == 0) {
+			birdStateFlag = 1;
+		} else {
+			birdStateFlag = 0;
+		}
+
 		batch.begin();
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.draw(birdWingsUp, Gdx.graphics.getWidth() / 2
-				- birdWingsUp.getWidth() / 2,
+		batch.draw(bird[birdStateFlag], Gdx.graphics.getWidth() / 2
+				- bird[birdStateFlag].getWidth() / 2,
 				Gdx.graphics.getHeight() / 2
-				- birdWingsUp.getHeight() / 2);
+				- bird[birdStateFlag].getHeight() / 2);
 		batch.end();
 	}
 
