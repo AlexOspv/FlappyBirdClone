@@ -68,9 +68,9 @@ public class FlappyBird extends ApplicationAdapter {
 		scoreFont.setColor(Color.RED);
 		scoreFont.getData().setScale(10);
 
-		gameOver = new Texture("game_over.png");
+		distanceBetweenTubes = Gdx.graphics.getWidth() / 2 + 100;
 
-		distanceBetweenTubes = Gdx.graphics.getWidth() / 2;
+		gameOver = new Texture("game_over.png");
 
 		initGame();
 
@@ -83,10 +83,12 @@ public class FlappyBird extends ApplicationAdapter {
 			tubeX[i] = Gdx.graphics.getWidth() / 2 - topTube.getWidth() / 2 + Gdx.graphics.getWidth()
 					+ i * distanceBetweenTubes *1.5f;
 			tubeShift[i] =(random.nextFloat() - 0.5f) * (Gdx.graphics.getHeight()
-					- spaceBetweenTubes - 200);
+					- spaceBetweenTubes - 1000);
 			topTubeRectangles[i] = new Rectangle();
 			bottomTubeRectangles[i] = new Rectangle();
+
 		}
+
 	}
 
 
@@ -136,9 +138,9 @@ public class FlappyBird extends ApplicationAdapter {
 						bottomTube.getWidth(), bottomTube.getHeight());
 			}
 
-			if (flyHeight > 0 ) {
+			if (flyHeight > 0 && flyHeight < Gdx.graphics.getHeight() - bird[birdStateFlag].getHeight()) {
 				fallingSpeed++;
-				flyHeight -= fallingSpeed;
+				flyHeight -= fallingSpeed*0.5;
 			} else {
 				gameStateFlag = 2;
 			}
