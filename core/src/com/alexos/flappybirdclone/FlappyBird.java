@@ -13,6 +13,9 @@ public class FlappyBird extends ApplicationAdapter {
 
 	Texture [] bird;
 	int birdStateFlag = 0;
+	float flyHeight;
+	float fallingSpeed = 0;
+	int gameStateFlag = 0;
 
 	@Override
 	public void create () {
@@ -21,10 +24,32 @@ public class FlappyBird extends ApplicationAdapter {
 		bird = new Texture[2];
 		bird[0] = new Texture("bird_wings_up.png");
 		bird[1] = new Texture("bird_wings_down.png");
+		flyHeight = Gdx.graphics.getHeight() / 2 - bird[0].getHeight() / 2;
 	}
 
 	@Override
 	public void render () {
+
+		if(Gdx.input.justTouched()) {
+			Gdx.app.log("Tap", "Ooops!");
+			gameStateFlag = 1;
+		}
+
+		if (gameStateFlag == 1) {
+			if(Gdx.input.justTouched()) {
+				fallingSpeed = -30;
+			}
+			if (flyHeight >0 || fallingSpeed <0) {
+				fallingSpeed++;
+				flyHeight -= fallingSpeed;
+			}
+
+		} else {
+			if(Gdx.input.justTouched()) {
+				Gdx.app.log("Tap", "Ooops!");
+				gameStateFlag = 1;
+			}
+		}
 
 		if (birdStateFlag == 0) {
 			birdStateFlag = 1;
@@ -36,8 +61,7 @@ public class FlappyBird extends ApplicationAdapter {
 		batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		batch.draw(bird[birdStateFlag], Gdx.graphics.getWidth() / 2
 				- bird[birdStateFlag].getWidth() / 2,
-				Gdx.graphics.getHeight() / 2
-				- bird[birdStateFlag].getHeight() / 2);
+				flyHeight);
 		batch.end();
 	}
 
